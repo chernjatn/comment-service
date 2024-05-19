@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->integer('ext_id')->nullable()->index();
 
-            $table->longText('text');
-            $table->boolean('is_active');
-            $table->string('channel', 20)->index();
-
-            $table->foreignId('article_id')->unsigned()->constrained('articles')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('title');
+            $table->boolean('status')->default(false);
 
             $table->timestamps();
         });
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('articles');
     }
 };
