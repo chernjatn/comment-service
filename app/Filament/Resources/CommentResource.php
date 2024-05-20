@@ -28,6 +28,9 @@ class CommentResource extends Resource
                         Forms\Components\Checkbox::make('is_active')
                             ->label('Активность')
                             ->default(false),
+                        Forms\Components\TextInput::make('name')
+                            ->label('Автор')
+                            ->required(),
                         Forms\Components\Select::make('article_id')
                             ->relationship('article', titleAttribute: 'title')
                             ->placeholder('Выберите статью')
@@ -35,7 +38,8 @@ class CommentResource extends Resource
                             ->preload()
                             ->required(),
                         Forms\Components\Textarea::make('text')
-                            ->label('Текст'),
+                            ->label('Текст')
+                            ->required(),
                     ])
             ]);
     }

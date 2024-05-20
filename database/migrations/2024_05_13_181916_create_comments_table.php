@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('article_id');
 
+            $table->string('name');
             $table->longText('text');
             $table->boolean('is_active');
 

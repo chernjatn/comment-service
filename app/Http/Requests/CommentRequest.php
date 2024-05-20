@@ -6,30 +6,30 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CommentRequest extends FormRequest
 {
+    private string $name;
     private string $text;
 
     public function rules()
     {
         return [
             'text' => 'required|string|min:6',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'name.required' => __('comment.name_required'),
-            'name.string'   => __('article.name_invalid'),
+            'name' => 'required|string|min:6',
         ];
     }
 
     public function passedValidation()
     {
+        $this->name = $this->get('name');
         $this->text = $this->get('text');
     }
 
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

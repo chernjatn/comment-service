@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->enum('channel', Channel::values());
             $table->string('title');
-            $table->boolean('status')->default(false);
 
             $table->timestamps();
         });
