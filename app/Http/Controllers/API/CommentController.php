@@ -22,10 +22,8 @@ class CommentController extends Controller
 
     public function store(Article $article, CommentRequest $request)
     {
-        return response()->json(
-            [
-                'success' => $article->comments()->insert(['text' => $request->getText()]),
-            ]
-        );
+        return response()->json([
+            'success' => $article->comments()->insert(['text' => $request->getText(), 'is_active' => false])
+        ]);
     }
 }

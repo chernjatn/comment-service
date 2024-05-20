@@ -15,6 +15,6 @@ use App\Http\Controllers\API\CommentController;
 */
 
 Route::prefix('comments')->group(function () {
-    Route::get('{article:ext_id}', [CommentController::class, 'index'])->name('comments.index');
+    Route::get('',  [CommentController::class, 'index'])->name('comments.index');
     Route::post('{article:ext_id}', [CommentController::class, 'store'])->name('comments.store');
 });

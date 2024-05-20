@@ -9,14 +9,15 @@ class ArticleManager
     ) {
     }
 
-    public function getArticles(string $channel): array
+    public function getArticles(string $channel, int $version): array
     {
         $articles = $this->articleService->getArticles($channel);
 
         return array_map(fn (array $data) => [
             'ext_id'  => $data['id'],
             'title'   => $data['title'],
-            'channel' => $channel
+            'channel' => $channel,
+            'version' => $version
         ], $articles);
     }
 }

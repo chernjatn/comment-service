@@ -46,7 +46,7 @@ class CommentResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('text')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('channel'),
+                Tables\Columns\BooleanColumn::make('is_active'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->searchable(),

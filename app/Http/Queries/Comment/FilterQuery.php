@@ -15,7 +15,7 @@ class FilterQuery extends QueryBuilder
 
         $this
             ->allowedFilters([
-                AllowedFilter::exact('articleId','article.id')
+                AllowedFilter::exact('articleId','article_id')
             ])
             ->allowedSorts([
                 'created_at',
