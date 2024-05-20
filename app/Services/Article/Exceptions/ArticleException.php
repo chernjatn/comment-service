@@ -1,6 +1,6 @@
 <?php
 
-namespace Ultra\Shop\Services\Articles\Exceptions;
+namespace App\Services\Article\Exceptions;
 
 use Exception;
 

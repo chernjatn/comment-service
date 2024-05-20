@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('article_id');
 
             $table->longText('text');
             $table->boolean('is_active');
-            $table->string('channel', 20)->index();
 
-            $table->foreignId('article_id')->unsigned()->constrained('articles')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('article_id')->references('ext_id')->on('articles')
+                ->cascadeOnUpdate()->cascadeOnDelete();
 
             $table->timestamps();
         });

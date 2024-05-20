@@ -1,8 +1,8 @@
 <?php
 
-namespace Ultra\Shop\Services\Article;
+namespace App\Services\Article;
 
-use Ultra\Shop\Services\Articles\Requests\GetArticles;
+use App\Services\Article\Requests\GetArticles;
 
 class ArticleService
 {

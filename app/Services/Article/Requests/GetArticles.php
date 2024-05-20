@@ -1,10 +1,10 @@
 <?php
 
-namespace Ultra\Shop\Services\Articles\Requests;
+namespace App\Services\Article\Requests;
 
 use Saloon\Enums\Method;
 
-class GetArticles extends Request
+class GetArticles
 {
     protected Method $method = Method::GET;
 
