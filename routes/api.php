@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\API\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +15,6 @@ use App\Http\Controllers\ArticleController;
 */
 
 Route::prefix('comments')->group(function () {
-    Route::get('{article:id}', [CommentController::class, 'show'])->name('comments.index');
-    Route::post('{article:id}', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('{article:ext_id}', [CommentController::class, 'index'])->name('comments.index');
+    Route::post('{article:ext_id}', [CommentController::class, 'store'])->name('comments.store');
 });

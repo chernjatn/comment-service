@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Queries\Comment\FilterQuery;
+use App\Http\Requests\CommentRequest;
+use App\Models\Article;
+use App\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -17,7 +20,12 @@ class CommentController extends Controller
         return CommentResource::collection($comments);
     }
 
-    public function store(Request $article)
+    public function store(Article $article, CommentRequest $request)
     {
+        return response()->json(
+            [
+                'success' => $article->comments()->insert(['text' => $request->getText()]),
+            ]
+        );
     }
 }

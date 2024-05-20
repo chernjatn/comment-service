@@ -14,8 +14,9 @@ class ArticleManager
         $articles = $this->articleService->getArticles($channel);
 
         return array_map(fn (array $data) => [
-            'ext_id' => $data['id'],
-            'title'  => $data['title']
+            'ext_id'  => $data['id'],
+            'title'   => $data['title'],
+            'channel' => $channel
         ], $articles);
     }
 }

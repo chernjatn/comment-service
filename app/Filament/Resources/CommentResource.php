@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Channel;
 use App\Filament\Resources\CommentResource\Pages;
-use App\Filament\Resources\CommentResource\RelationManagers;
 use App\Models\Comment;
+use App\Services\Wp\WpConnectionManager;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class CommentResource extends Resource
 {
@@ -23,7 +23,20 @@ class CommentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Checkbox::make('is_active')
+                            ->label('Активность')
+                            ->default(false),
+                        Forms\Components\Select::make('article_id')
+                            ->relationship('article', titleAttribute: 'title')
+                            ->placeholder('Выберите статью')
+                            ->label('Статья')
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Textarea::make('text')
+                            ->label('Текст'),
+                    ])
             ]);
     }
 
@@ -31,13 +44,22 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('text')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('channel'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->sortable()
+                    ->searchable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                    ->options(Channel::class),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\CreateAction::make(),
+                Tables\Actions\ReplicateAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

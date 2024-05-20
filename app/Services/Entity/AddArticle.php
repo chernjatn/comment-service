@@ -8,6 +8,6 @@ class AddArticle
 {
     public static function process(array $articles)
     {
-        Article::upsert($articles, 'ext_id', ['title']);
+        Article::upsert($articles, ['ext_id', 'channel'], ['title']);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Queries\Comment;
 
-use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -12,13 +11,11 @@ class FilterQuery extends QueryBuilder
 {
     public function __construct(?Request $request = null)
     {
-        parent::__construct(Comment::query()->with(['article'])->compact(), $request);
+        parent::__construct(Comment::query()->with(['article']), $request);
 
         $this
             ->allowedFilters([
-                AllowedFilter::exact('inSlider', 'in_slider'),
-                AllowedFilter::exact('hasHeadingId', 'heading_id'),
-                AllowedFilter::exact('tradeNameId','tradeNames.id')
+                AllowedFilter::exact('articleId','article.id')
             ])
             ->allowedSorts([
                 'created_at',

@@ -12,9 +12,9 @@ class Article extends Model
 {
     use HasFactory, HasChannel;
 
-    public function articles(): HasMany
+    public function comments(): HasMany
     {
-        return $this->HasMany(Comment::class);
+        return $this->HasMany(Comment::class, 'article_id', 'ext_id');
     }
 
     protected static function booted()

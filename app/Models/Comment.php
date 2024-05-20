@@ -11,11 +11,13 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'text'
+        'text',
+        'is_active',
+        'article_id',
     ];
 
-    public function articles(): BelongsTo
+    public function article(): BelongsTo
     {
-        return $this->belongsTo(Article::class);
+        return $this->belongsTo(Article::class, 'article_id','ext_id');
     }
 }
