@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'url' => env('WP_URL', 'https://blog.ozerki.ru/api'),
+    'url' => env('ARTICLE_URL', 'https://blog.ozerki.ru/api'),
 ];

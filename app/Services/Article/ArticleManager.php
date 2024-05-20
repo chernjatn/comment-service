@@ -9,10 +9,13 @@ class ArticleManager
     ) {
     }
 
-    public function getArticles(): ArticlesCollection
+    public function getArticles(string $channel): array
     {
-        $articles = $this->articleService->getArticles()->json('cartId');
+        $articles = $this->articleService->getArticles($channel);
 
-        //return ArticleCo;
+        return array_map(fn (array $data) => [
+            'ext_id' => $data['id'],
+            'title'  => $data['title']
+        ], $articles);
     }
 }

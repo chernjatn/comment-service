@@ -6,8 +6,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum Channel: string implements HasLabel
 {
-    case SUPERAPTEKA = 'superapteka';
     case OZERKI = 'ozerki';
+    case SUPERAPTEKA = 'superapteka';
     case SAMSON = 'samson';
     case STOLETOV = 'stoletov';
 

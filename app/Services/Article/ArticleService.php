@@ -11,8 +11,8 @@ class ArticleService
     ) {
     }
 
-    public function getArticles()
+    public function getArticles(string $channel): array
     {
-        return $this->articleConnector->send(new GetArticles());
+        return $this->articleConnector->send(new GetArticles($channel))->json('data');
     }
 }

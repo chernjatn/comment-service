@@ -2,7 +2,7 @@
 
 namespace App\Services\Article;
 
-use Saloon\Contracts\Response;
+use Saloon\Http\Response;
 use Saloon\Helpers\RequestExceptionHelper;
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AcceptsJson;
