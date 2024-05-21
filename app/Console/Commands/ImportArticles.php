@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\Channel;
-use App\Jobs\AfterImportArticles;
+use App\Models\Article;
 use App\Services\Article\Exceptions\ArticlesImportException;
 use App\Services\Entity\AddArticles;
 use Illuminate\Console\Command;
@@ -25,7 +25,9 @@ class ImportArticles extends Command
                 AddArticles::process($articles);
             }
 
-            dispatch_sync(new AfterImportArticles($version));
+            Article::query()
+                ->where('version', '!=', $version)
+                ->delete();
         } catch (\Throwable $exc) {
             (new ArticlesImportException($exc->getMessage(), (int) $exc->getCode(), $exc))->report();
         }
