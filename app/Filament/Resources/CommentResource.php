@@ -48,9 +48,13 @@ class CommentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('text')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\BooleanColumn::make('is_active'),
+                Tables\Columns\TextColumn::make('text')
+                    ->limit(10)
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->searchable(),

@@ -40,9 +40,6 @@ class ArticleResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
                     ->options(Channel::class),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
             ]);
     }
 
