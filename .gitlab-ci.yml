@@ -1,0 +1,75 @@
+image: sail-8.2/app
+
+stages:
+  - test
+  - deploy
+
+lint:
+  stage: test
+  script:
+    - composer install
+#    - composer lint
+  #    - composer larastan -- --memory-limit=512M
+  allow_failure: true
+  tags:
+    - dev
+
+pest:
+  stage: test
+  script:
+    - cp .env.example .env
+    - composer install
+    - php artisan key:generate
+    - php artisan test --do-not-cache-result --log-junit pest-report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: pest-report.xml
+  tags:
+    - dev
+
+deploy-to-dev:
+  stage: deploy
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | tr -d '\r')
+    - ssh-keyscan -t rsa  ${SSH_KNOWN_HOSTS} >> ~/.ssh/known_hosts
+  script:
+    - hostnamectl
+    - ls -la
+    - composer install
+    - php ./vendor/bin/envoy run deployToDev --branch="$CI_COMMIT_BRANCH"
+  environment:
+    name: dev
+    url: $DEV_HOST
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'setting_ci/cd'
+      when: manual
+    - if: $CI_COMMIT_BRANCH != 'dev'
+      when: manual
+  tags:
+    - dev
+
+#deploy-to-prod:
+#  stage: deploy
+#  before_script:
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - mkdir -p ~/.ssh
+#    - eval $(ssh-agent -s)
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#    - ssh-add <(echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r')
+#  script:
+#    - composer install
+#    - php ./vendor/bin/envoy run deployToProd --branch="main"
+#  environment:
+#    name: prod
+#    url: https://promos.erkapharm.com
+#  only:
+#    - main
+#  tags:
+#    - prod
