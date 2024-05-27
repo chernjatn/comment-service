@@ -9,15 +9,21 @@ use App\Models\Article;
 use App\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CommentController extends Controller
 {
     public function index(FilterQuery $filterQuery, Request $request): AnonymousResourceCollection
     {
-        $comments = $filterQuery
-            ->paginate($request->input('per_page'));
+        $comments = $filterQuery->get();
 
-        return CommentResource::collection($comments);
+        $paginator = $this->getPaginator($comments, $request);
+
+        return CommentResource::collection($paginator)->additional([
+            'avgRating'  => $comments->avg('rating'),
+            'countStars' => $comments->groupBy('rating')->map(fn (Collection $items) => $items->count())
+        ]);
     }
 
     public function store(Article $article, CommentRequest $request)
@@ -25,9 +31,15 @@ class CommentController extends Controller
         $article->comments()->create([
             'text'      => $request->getText(),
             'name'      => $request->getName(),
+            'rating'    => $request->getRating(),
             'is_active' => false,
         ]);
 
         return response()->json(['success' => true]);
+    }
+
+    public function getPaginator(Collection $items, Request $request): LengthAwarePaginator
+    {
+        return new LengthAwarePaginator($items, $items->count(), $request->input('per_page') ?? 1);
     }
 }
