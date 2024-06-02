@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -26,16 +27,16 @@ class CommentController extends Controller
         ]);
     }
 
-    public function store(Article $article, CommentRequest $request)
+    public function store(Article $article, CommentRequest $request): JsonResource
     {
-        $article->comments()->create([
+        $comment = $article->comments()->create([
             'text'      => $request->getText(),
             'name'      => $request->getName(),
             'rating'    => $request->getRating(),
             'is_active' => false,
         ]);
 
-        return response()->json(['success' => true]);
+        return new CommentResource($comment);
     }
 
     public function getPaginator(Collection $items, Request $request): LengthAwarePaginator

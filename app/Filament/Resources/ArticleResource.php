@@ -33,13 +33,12 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('comments_avg_rating')->avg('comments', 'rating')
-                    ->numeric()
-                    ->icon('heroicon-m-star')->color('primary'),
+                ->numeric()
+                ->icon('heroicon-m-star')->color('primary'),
                 Tables\Columns\TextColumn::make('channel')
                     ->searchable(),
             ])
             ->defaultSort('created_at', 'desc')
-
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
                     ->options(Channel::class),
