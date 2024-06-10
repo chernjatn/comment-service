@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedInteger('ext_id')->index();
+            $table->integer('version');
 
             $table->enum('channel', Channel::values());
             $table->string('title');

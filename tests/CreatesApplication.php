@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Artisan;
 
 trait CreatesApplication
 {
@@ -16,6 +17,14 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        $this->optimizeApp();
+
         return $app;
+    }
+
+    private function optimizeApp(): void
+    {
+        Artisan::call('config:clear');
+        Artisan::call('cache:clear');
     }
 }
