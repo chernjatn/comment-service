@@ -2,6 +2,8 @@
 
 namespace App\Services\Article;
 
+use App\Services\Article\DTO\ArticleDTO;
+
 class ArticleManager
 {
     public function __construct(
@@ -13,11 +15,6 @@ class ArticleManager
     {
         $articles = $this->articleService->getArticles($channel);
 
-        return array_map(fn (array $data) => [
-            'ext_id'  => $data['id'],
-            'title'   => $data['title'],
-            'channel' => $channel,
-            'version' => $version
-        ], $articles);
+        return array_map(fn (array $data) => ArticleDTO::fromResponse($data, $channel, $version), $articles);
     }
 }

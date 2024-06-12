@@ -68,9 +68,9 @@ class CommentControllerTest extends TestCase
     public function testStoreWithMissingData() {
         $article = Article::factory()->create();
 
-        $comment = Comment::factory()->make()->getAttributes();
+        $payload = Comment::factory()->make()->getAttributes();
 
-        $payload = collect($comment)->except('text')->all();
+        unset($payload['text']);
 
         $this->json('post', "api/comments/$article->ext_id", $payload)
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
