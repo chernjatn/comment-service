@@ -18,11 +18,6 @@ class AddArticlesTest extends TestCase
 
         $article = array_shift($articles);
 
-        $this->assertDatabaseHas('articles',[
-            'ext_id'   => $article->extId,
-            'title'    => $article->title,
-            'version'  => $article->version,
-            'channel'  => $article->channel,
-        ]);
+        $this->assertDatabaseHas('articles', $article->toArray());
     }
 }

@@ -15,11 +15,12 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('ext_id')->index();
+            $table->unsignedInteger('ext_id');
             $table->integer('version');
-
             $table->enum('channel', Channel::values());
             $table->string('title');
+
+            $table->unique(['ext_id', 'channel']);
 
             $table->timestamps();
         });
